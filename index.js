@@ -1,5 +1,8 @@
 var express = require('express');
 var app = express();
+const cors = require('cors')
+
+app.use(cors())
 const nodemailer = require('nodemailer')
 const hbs = require('nodemailer-express-handlebars')
 const SMTP_CONFIG = require('./src/smtp')
