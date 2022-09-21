@@ -3,7 +3,7 @@ var app = express();
 const nodemailer = require('nodemailer')
 const hbs = require('nodemailer-express-handlebars')
 const SMTP_CONFIG = require('./src/smtp')
-require('dotenv').config
+require('dotenv').config()
 const transporter = nodemailer.createTransport({
     host: SMTP_CONFIG.host,
     port: SMTP_CONFIG.port,
@@ -42,9 +42,9 @@ app.get('/', function(req, res) {
     res.send('hello world')
 });
 
-app.get('/sendEmail', function(req, res) {
+app.post('/sendEmail', function(req, res) {
     run()
     res.send('email enviado')
 })
 
-app.listen(8080);
+app.listen(process.env.PORT || 8080);

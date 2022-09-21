@@ -1,13 +1,13 @@
 require('dotenv').config()
 
 var HOST = process.env.HOST
-var PORT = process.env.PORT
+var PORTs = process.env.PORTs
 var USER = process.env.USER
 var PASS = process.env.PASS
 
 module.exports = {
     host: 'smtp-relay.gmail.com',
-    port: PORT,
+    port: PORTs,
     user: USER,
     pass: PASS
 }
