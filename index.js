@@ -30,7 +30,7 @@ async function run(){
         text: 'Teste',
         subject: 'Oportunidade de venda!',
         from: 'concierge@portobello.com.br',
-        to: 'carlos.hipolito@portobello.com.br',
+        to: ['carlos.hipolito@portobello.com.br', 'karine.santos@portobello.com.br'],
         template: 'index',
     })
     console.log(mailSent)
