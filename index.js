@@ -1,8 +1,18 @@
 var express = require('express');
+var bodyParser = require('body-parser')
 var app = express();
-const cors = require('cors')
+const handlebars = require("handlebars")
+const cors = require('cors');
+const fs = require("fs")
+const path = require("path")
 
-app.use(cors())
+
+var jsonParser = bodyParser.json();
+app.use(cors());
+
+  
+
+
 const nodemailer = require('nodemailer')
 const hbs = require('nodemailer-express-handlebars')
 const SMTP_CONFIG = require('./src/smtp')
@@ -20,34 +30,40 @@ const transporter = nodemailer.createTransport({
     },
 })
 
-transporter.use('compile', hbs({
-    viewEngine: 'express-handlebars',
-    viewPath: './views/'
-}))
+const emailTemplateSource = fs.readFileSync(path.join(__dirname, "/template.hbs"), "utf8")
+const template = handlebars.compile(emailTemplateSource)
 
-async function run(){
+
+async function run(htmlToSend){
+
+
     const mailSent = await transporter.sendMail({
-        text: 'Teste',
-        subject: 'Oportunidade de venda!',
+        subject: 'Teste mensagem dinâmica com imagem funcionando',
         from: 'concierge@portobello.com.br',
         to: ['carlos.hipolito@portobello.com.br', 'karine.santos@portobello.com.br'],
-        template: 'index',
+        html: htmlToSend,
+        attachments: [{
+            filename: 'image1.png',
+              path: __dirname +'/images/image1.png',
+             cid: 'image1'
+      }]
     })
-    console.log(mailSent)
+    return (mailSent)
 }
-
-
-
 
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', function(req, res) {
-    res.send('hello world')
+    res.send('alive')
 });
 
-app.post('/sendEmail', function(req, res) {
-    run()
-    res.send('email enviado')
+app.post('/sendEmail', jsonParser, function(req, res) {
+    const data = (req.body)
+    console.log(data)
+    const htmlToSend = template(data)
+    const mailResponse = run(htmlToSend)
+    res.send(mailResponse)
 })
 
 app.listen(process.env.PORT || 8080);
+console.log("Server listening on port 8080")

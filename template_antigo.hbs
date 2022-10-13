@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <title>Teste E-Mail</title>
+  </head>
+  <body>
+    <div style="font-size:14px;text-align:left;width:100%;color:#939393" >
+      <span>Olá, </span>
+      <span style="font-weight: bold;">{{trader}}!<br></span>
+      <span>O cliente</span>
+      <span style="font-weight: bold;"> {{cliente}} </span>
+      <span>navegou no Concierge e tem interesse nos produtos abaixo: <br></span>
+      <ul style="font-weight: bold;" class="product_list">
+        {{#each produtos}}
+          <li>{{this}}</li>
+        {{/each}}
+      </ul>
+
+      <span>Os dados de contato registrados são: <br></span>
+      <span>Cliente: </span>
+      <span style="font-weight: bold;">{{cliente}}<br></span>
+      <span>Usuário: </span>
+      <span style="font-weight: bold;">{{usuario}}<br></span>
+      <span>Email: </span>
+      <span style="font-weight: bold;">{{email_cliente}}<br></span>
+
+      <span>Mensagem do cliente (opcional): </span>
+      <span style="font-weight: bold;">{{message}}<br></span>
+
+      <span>Boas vendas!<br></span>
+      <span style="font-size:16px">Concierge Portobello<br></span>
+
+      <span>{{message}}</span>
+    </div>
+  </body>
+</html>
