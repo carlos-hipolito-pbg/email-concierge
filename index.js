@@ -34,13 +34,13 @@ const emailTemplateSource = fs.readFileSync(path.join(__dirname, "/template.hbs"
 const template = handlebars.compile(emailTemplateSource)
 
 
-async function run(htmlToSend){
+async function run(htmlToSend, recievers){
 
 
     const mailSent = await transporter.sendMail({
         subject: 'Teste mensagem dinâmica com imagem funcionando',
         from: 'concierge@portobello.com.br',
-        to: ['carlos.hipolito@portobello.com.br', 'karine.santos@portobello.com.br'],
+        to: recievers,
         html: htmlToSend,
         attachments: [{
             filename: 'image1.png',
@@ -59,9 +59,10 @@ app.get('/', function(req, res) {
 
 app.post('/sendEmail', jsonParser, function(req, res) {
     const data = (req.body)
+    const {recievers} = req.body
     console.log(data)
     const htmlToSend = template(data)
-    const mailResponse = run(htmlToSend)
+    const mailResponse = run(htmlToSend, recievers)
     res.send(mailResponse)
 })
 
