@@ -32,13 +32,29 @@ const transporter = nodemailer.createTransport({
 
 const emailTemplateSource = fs.readFileSync(path.join(__dirname, "/template.hbs"), "utf8")
 const template = handlebars.compile(emailTemplateSource)
-
+const emailTemplateSourceNotLogged = fs.readFileSync(path.join(__dirname, "/templateNotLogged.hbs"), "utf8")
+const templateNotLogged = handlebars.compile(emailTemplateSourceNotLogged)
 
 async function run(htmlToSend, recievers){
+    const mailSent = await transporter.sendMail({
+        subject: 'Oportunidade de Venda!',
+        from: 'concierge@portobello.com.br',
+        to: recievers,
+        html: htmlToSend,
+        attachments: [{
+            filename: 'image1.png',
+              path: __dirname +'/images/image1.png',
+             cid: 'image1'
+      }]
+    })
+    return (mailSent)
+}
+
+async function runNotLogged(htmlToSend, recievers){
 
 
     const mailSent = await transporter.sendMail({
-        subject: 'Teste mensagem dinâmica com imagem funcionando',
+        subject: 'Oportunidade de um novo cliente!',
         from: 'concierge@portobello.com.br',
         to: recievers,
         html: htmlToSend,
@@ -63,6 +79,15 @@ app.post('/sendEmail', jsonParser, function(req, res) {
     console.log(data)
     const htmlToSend = template(data)
     const mailResponse = run(htmlToSend, recievers)
+    res.send(mailResponse)
+})
+
+app.post('/sendEmailNotLogged', jsonParser, function(req, res) {
+    const data = (req.body)
+    const {recievers} = req.body
+    console.log(data)
+    const htmlToSend = templateNotLogged(data)
+    const mailResponse = runNotLogged(htmlToSend, recievers)
     res.send(mailResponse)
 })
 
