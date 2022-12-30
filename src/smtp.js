@@ -6,7 +6,7 @@ var USER = process.env.USER
 var PASS = process.env.PASS
 
 module.exports = {
-    host: 'smtp.gmail.com',
+    host: HOST,
     port: 587,
     user: USER,
     pass: PASS
