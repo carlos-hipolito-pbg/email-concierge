@@ -73,21 +73,21 @@ app.get('/', function(req, res) {
     res.send('alive')
 });
 
-app.post('/sendEmail', jsonParser, function(req, res) {
+app.post('/sendEmail', jsonParser, async function(req, res) {
     const data = (req.body)
     const {recievers} = req.body
     console.log(data)
     const htmlToSend = template(data)
-    const mailResponse = run(htmlToSend, recievers)
+    const mailResponse = await run(htmlToSend, recievers)
     res.send(mailResponse)
 })
 
-app.post('/sendEmailNotLogged', jsonParser, function(req, res) {
+app.post('/sendEmailNotLogged', jsonParser, async function(req, res) {
     const data = (req.body)
     const {recievers} = req.body
     console.log(data)
     const htmlToSend = templateNotLogged(data)
-    const mailResponse = runNotLogged(htmlToSend, recievers)
+    const mailResponse = await runNotLogged(htmlToSend, recievers)
     res.send(mailResponse)
 })
 
