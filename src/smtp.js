@@ -7,7 +7,7 @@ var PASS = process.env.PASS
 
 module.exports = {
     host: HOST,
-    port: 587,
+    port: PORTs,
     user: USER,
     pass: PASS
 }
